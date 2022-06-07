@@ -26,7 +26,7 @@ resource "azurerm_application_gateway" "appgw01" {
   }
 
   backend_address_pool {
-    name      = "WebApp01"
+    name  = "WebApp01"
     fqdns = [azurerm_app_service.webapp01.default_site_hostname]
   }
 
@@ -56,7 +56,7 @@ resource "azurerm_application_gateway" "appgw01" {
     probe_name            = "probe"
 
     # Use this to avoid error 404 when reaching WebApp01
-    host_name             = azurerm_app_service.webapp01.default_site_hostname
+    host_name = azurerm_app_service.webapp01.default_site_hostname
   }
 
   request_routing_rule {
