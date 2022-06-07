@@ -13,7 +13,7 @@ resource "azurerm_virtual_network" "vnet0" {
 }
 
 # Create subnet for app gateway
-resource "azurerm_subnet" "AppGwSubnet" {
+resource "azurerm_subnet" "appgw_subnet" {
   name                 = "AppGwSubnet"
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.vnet0.name
