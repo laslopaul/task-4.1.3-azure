@@ -17,4 +17,13 @@ resource "azurerm_app_service" "webapp01" {
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   app_service_plan_id = azurerm_app_service_plan.webapp01-service-plan.id
+
+  # Ensure that WebApp can be accessed only through AppGw01
+  site_config {
+    ip_restriction {
+      ip_address = "${azurerm_public_ip.publicip_appgw.ip_address}/32"
+      name       = "AllowInboundAppGw"
+      priority   = 100
+    }
+  }
 }
