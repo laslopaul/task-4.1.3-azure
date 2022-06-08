@@ -5,8 +5,8 @@ resource "azurerm_application_gateway" "appgw01" {
   location            = azurerm_resource_group.rg.location
 
   sku {
-    name     = "Standard_Small"
-    tier     = "Standard"
+    name     = "Standard_v2"
+    tier     = "Standard_V2"
     capacity = 2
   }
 
@@ -60,9 +60,9 @@ resource "azurerm_application_gateway" "appgw01" {
   }
 
   request_routing_rule {
-    name                       = "http_routing"
+    name                       = "http"
     rule_type                  = "Basic"
-    http_listener_name         = "http"
+    http_listener_name         = "listener"
     backend_address_pool_name  = "WebApp01"
     backend_http_settings_name = "backend_settings"
   }
