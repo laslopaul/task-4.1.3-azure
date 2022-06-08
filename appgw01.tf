@@ -16,12 +16,12 @@ resource "azurerm_application_gateway" "appgw01" {
   }
 
   frontend_port {
-    name = "http"
+    name = "frontend_port"
     port = 80
   }
 
   frontend_ip_configuration {
-    name                 = "frontend"
+    name                 = "frontend_config"
     public_ip_address_id = azurerm_public_ip.publicip_appgw.id
   }
 
@@ -31,9 +31,9 @@ resource "azurerm_application_gateway" "appgw01" {
   }
 
   http_listener {
-    name                           = "http"
-    frontend_ip_configuration_name = "frontend"
-    frontend_port_name             = "http"
+    name                           = "listener"
+    frontend_ip_configuration_name = "frontend_config"
+    frontend_port_name             = "frontend_port"
     protocol                       = "Http"
   }
 
@@ -48,7 +48,7 @@ resource "azurerm_application_gateway" "appgw01" {
   }
 
   backend_http_settings {
-    name                  = "http"
+    name                  = "backend_settings"
     cookie_based_affinity = "Disabled"
     port                  = 80
     protocol              = "Http"
@@ -56,14 +56,14 @@ resource "azurerm_application_gateway" "appgw01" {
     probe_name            = "probe"
 
     # Use this to avoid error 404 when reaching WebApp01
-    host_name = azurerm_app_service.webapp01.default_site_hostname
+    pick_host_name_from_backend_address = true
   }
 
   request_routing_rule {
-    name                       = "http"
+    name                       = "http_routing"
     rule_type                  = "Basic"
     http_listener_name         = "http"
     backend_address_pool_name  = "WebApp01"
-    backend_http_settings_name = "http"
+    backend_http_settings_name = "backend_settings"
   }
 }
