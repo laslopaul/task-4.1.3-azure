@@ -7,7 +7,7 @@ resource "azurerm_application_gateway" "appgw01" {
   sku {
     name     = "Standard_v2"
     tier     = "Standard_V2"
-    capacity = 2
+    capacity = 1
   }
 
   gateway_ip_configuration {
@@ -37,30 +37,19 @@ resource "azurerm_application_gateway" "appgw01" {
     protocol                       = "Http"
   }
 
-  probe {
-    name                = "probe"
-    protocol            = "http"
-    path                = "/"
-    host                = azurerm_app_service.webapp01.default_site_hostname
-    interval            = "30"
-    timeout             = "30"
-    unhealthy_threshold = "3"
-  }
-
   backend_http_settings {
     name                  = "backend_settings"
     cookie_based_affinity = "Disabled"
-    port                  = 80
-    protocol              = "Http"
+    port                  = 443
+    protocol              = "Https"
     request_timeout       = 1
-    probe_name            = "probe"
 
     # Use this to avoid error 404 when reaching WebApp01
     pick_host_name_from_backend_address = true
   }
 
   request_routing_rule {
-    name                       = "http"
+    name                       = "rule01"
     rule_type                  = "Basic"
     http_listener_name         = "listener"
     backend_address_pool_name  = "WebApp01"

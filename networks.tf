@@ -1,7 +1,7 @@
 # Create resource group
 resource "azurerm_resource_group" "rg" {
   name     = "RG_TASK_413"
-  location = "japaneast"
+  location = "eastus"
 }
 
 # Create public IP for app gateway
