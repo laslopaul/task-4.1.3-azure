@@ -15,9 +15,15 @@ resource "azurerm_application_gateway" "appgw01" {
     subnet_id = azurerm_subnet.appgw_subnet.id
   }
 
+  ssl_certificate {
+    name     = "self_signed_cert"
+    data     = pkcs12_from_pem.self_signed_cert.result
+    password = random_password.self_signed_cert.result
+  }
+
   frontend_port {
     name = "frontend_port"
-    port = 80
+    port = 443
   }
 
   frontend_ip_configuration {
@@ -34,7 +40,8 @@ resource "azurerm_application_gateway" "appgw01" {
     name                           = "listener"
     frontend_ip_configuration_name = "frontend_config"
     frontend_port_name             = "frontend_port"
-    protocol                       = "Http"
+    protocol                       = "Https"
+    ssl_certificate_name           = "self_signed_cert"
   }
 
   backend_http_settings {
