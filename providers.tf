@@ -7,6 +7,12 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~>2.0"
     }
+    
+    # Add pkcs12 provider for generation of self-signed SSL cert
+    pkcs12 = {
+      source  = "chilicat/pkcs12"
+      version = "=0.0.7"
+    }
   }
 }
 
